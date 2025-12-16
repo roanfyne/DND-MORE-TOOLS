@@ -1,0 +1,300 @@
+/* Updated stylesheet for DND-MORE-TOOLS
+   - Replaces header/nav appearance with a modern dark theme
+   - Improves typography, spacing, buttons, lists, tables
+   - Keeps compatibility with existing HTML markup (header, nav.nav-pills, .container, ul.list, table#stats, etc.)
+*/
+
+/* Import modern UI font (fallbacks included) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Convergence');
+
+/* Theme variables for easy tweaking */
+:root{
+  --bg-900: #071125;
+  --bg-800: #0b1724;
+  --surface: #071826;
+  --muted-surface: #0b1522;
+  --primary: #58b6ff;
+  --accent: #6aa8ff;
+  --text: #e6eef8;
+  --muted: #98a8bd;
+  --border: rgba(255,255,255,0.06);
+  --glass: rgba(255,255,255,0.02);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --shadow-1: 0 8px 20px rgba(2,6,23,0.6);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --base-font: 16px;
+}
+
+/* Reset / base */
+*{box-sizing:border-box}
+html,body{
+  height:100%;
+  margin:0;
+  font-family: Inter, "Convergence", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size:var(--base-font);
+  background: linear-gradient(180deg, var(--bg-900) 0%, var(--bg-800) 100%);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+}
+
+/* Container */
+.container{
+  width:100%;
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 var(--space-4);
+}
+
+/* Header */
+header{
+  margin-bottom: 10px;
+  padding: 18px 0;
+  color: var(--text);
+  background: transparent;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  backdrop-filter: blur(6px);
+}
+header > .container{
+  display:flex;
+  align-items:center;
+  gap:var(--space-4);
+}
+
+/* Brand block in header (applies to existing <h1> + <p> structure) */
+header h1{
+  margin:0;
+  font-weight:700;
+  font-size:1.1rem;
+  letter-spacing:0.4px;
+}
+header p.lead{
+  margin:4px 0 0 0;
+  color:var(--muted);
+  font-size:0.92rem;
+}
+
+/* Navigation (existing .nav.nav-pills) */
+nav.container {
+  margin-bottom: 8px;
+}
+.nav-pills {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  padding:6px 8px;
+  background:transparent;
+  margin:0;
+}
+.nav-pills > li {
+  list-style:none;
+}
+.nav-pills > li > a {
+  display:inline-block;
+  padding:8px 12px;
+  color:var(--muted);
+  text-decoration:none;
+  border-radius:8px;
+  transition:all .12s ease;
+  border:1px solid transparent;
+  background:transparent;
+  font-weight:600;
+  font-size:0.95rem;
+}
+.nav-pills > li > a:hover,
+.nav-pills > li.active > a,
+.nav-pills > li > a:focus {
+  color:var(--text);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border:1px solid var(--border);
+  box-shadow: var(--shadow-1);
+}
+
+/* Dropdown menu styling (Bootstrap markup still used) */
+.nav .dropdown-menu {
+  background: linear-gradient(180deg, var(--muted-surface), rgba(11,21,34,0.95));
+  border:1px solid var(--border);
+  border-radius:8px;
+  box-shadow: 0 12px 30px rgba(2,6,23,0.6);
+  padding:8px 6px;
+}
+.nav .dropdown-menu li a {
+  color:var(--text);
+  padding:8px 12px;
+  display:block;
+  font-weight:500;
+  white-space:nowrap;
+}
+.nav .dropdown-menu li a:hover { background: rgba(255,255,255,0.02); }
+
+/* Header controls (search/input) compatibility */
+input.search, input[type="search"], input[type="text"], textarea, select {
+  background: var(--muted-surface);
+  color:var(--text);
+  border:1px solid var(--border);
+  padding:8px 10px;
+  border-radius:8px;
+  outline:none;
+  transition: box-shadow .12s ease, transform .08s ease;
+}
+input.search:focus, input[type="search"]:focus, textarea:focus {
+  box-shadow: 0 6px 20px rgba(7,10,20,0.45);
+  border-color:rgba(88,182,255,0.6);
+  transform: translateY(-1px);
+}
+
+/* Buttons */
+.btn, button {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  border:none;
+  font-weight:600;
+  background:var(--primary);
+  color:#042233;
+  transition: transform .08s ease, box-shadow .12s ease;
+}
+.btn.secondary {
+  background:transparent;
+  color:var(--text);
+  border:1px solid var(--border);
+}
+.btn:hover { transform:translateY(-2px); box-shadow:0 10px 26px rgba(7,10,20,0.6); }
+
+/* Lists (left-hand lists like ul.list) */
+ul.list {
+  list-style-type: none;
+  padding-left: 0;
+  height: 100%;
+  max-height: 40em;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-top: 0.6em;
+  clear: both;
+  font-size: 0.95rem;
+  margin: 0;
+  border-radius:8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+  border:1px solid var(--border);
+}
+ul.list li {
+  padding: 8px 10px;
+  cursor: pointer;
+  display: block;
+  border-bottom: 1px solid rgba(255,255,255,0.02);
+  max-height: none;
+  transition: background .08s ease, color .08s ease;
+  color:var(--muted);
+}
+ul.list li:hover {
+  background: rgba(255,255,255,0.02);
+  color:var(--text);
+}
+ul.list li span.name { font-weight:700; color:var(--text); display:block; }
+ul.list li span.level, ul.list li span.classes, ul.list li span.school {
+  display:inline-block;
+  margin-right:8px;
+  color:var(--muted);
+  text-transform:capitalize;
+  font-weight:500;
+}
+
+/* Card-like containers for stat blocks and content */
+section.card, .card, .panel, .well {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border:1px solid var(--border);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1);
+  color: var(--text);
+}
+
+/* Stats table (preserve Convergence font for these specific tables) */
+table#stats, table#statsprof {
+  font-family: 'Convergence', sans-serif;
+  background: #fdf1dc; /* keep original light card for readability */
+  border-radius: 10px;
+  width: 100%;
+  font-size: .95rem;
+  table-layout: fixed;
+  overflow:hidden;
+  border-collapse: separate;
+}
+table#stats td, table#stats th {
+  padding:10px;
+  vertical-align: middle;
+}
+
+/* Generic tables & lists used across site */
+.table, table {
+  width:100%;
+  border-collapse:collapse;
+  background:transparent;
+}
+.table th, .table td, table th, table td {
+  padding:12px 10px;
+  text-align:left;
+  border-bottom:1px solid rgba(255,255,255,0.03);
+  color:var(--muted);
+  font-size:0.95rem;
+}
+.table tr:hover td, table tr:hover td { background: rgba(255,255,255,0.01); color:var(--text); }
+
+/* Inline badges for sources (preserve existing color semantics but refine visuals) */
+span.source {
+  display:inline-block;
+  padding:2px 6px;
+  border-radius:6px;
+  font-weight:600;
+  font-size:0.78rem;
+  color:var(--text);
+  background: rgba(255,255,255,0.02);
+  margin-left:6px;
+}
+span.sourceDMG { background: rgba(128,0,128,0.12); color: #f4e6ff; }
+span.sourceMM { background: rgba(0,128,0,0.10); color: #dfffe0; }
+span.sourceVGM { background: rgba(128,128,128,0.08); color: #f0f2f4; }
+/* other source classes remain readable as-is */
+
+/* Small forms (pointbuy etc.) */
+form#pointbuy label { float:left; width:7em; color:var(--muted); font-weight:600; }
+form#pointbuy input { margin:2px; text-align:right; padding:6px; border-radius:6px; }
+
+/* Utility classes */
+.unselectable { user-select:none; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; }
+
+/* Footer tweaks */
+footer {
+  padding: 18px var(--space-4);
+  font-size: 0.92rem;
+  color: var(--muted);
+  border-top: 1px solid rgba(255,255,255,0.02);
+  margin-top: var(--space-4);
+}
+
+/* Responsive */
+@media (max-width:900px){
+  .nav-pills { gap:6px; padding:6px; }
+  header > .container { flex-direction:column; align-items:flex-start; gap:6px; }
+  input.search { width:100% !important; }
+}
+
+/* Accessibility: focus states */
+a:focus, button:focus, input:focus {
+  outline: 3px solid rgba(88,182,255,0.18);
+  outline-offset: 2px;
+}
