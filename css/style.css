@@ -1,38 +1,37 @@
-/* Updated stylesheet for DND-MORE-TOOLS
-   - Darker accent, smaller text, fixed list behavior, ensure images visible
-   - Replaces only css/style.css
+/* Fantasy / RPG visual update
+   - Hovered text darkens (not lightens)
+   - Images framed like illustrated cards
+   - Stat blocks (table#stats / .card) given parchment styling
+   - Decorative heading font (Cinzel) for an RPG vibe
+   - Keeps compatibility with existing markup only (no HTML changes)
 */
 
-/* Import modern UI font (fallbacks included) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Cinzel:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Convergence');
 
-/* Theme variables for easy tweaking */
 :root{
+  /* Palette */
   --bg-900: #071125;
   --bg-800: #0b1724;
   --surface: #071826;
   --muted-surface: #0b1522;
-  --primary: #1b6fb3; /* darker accent */
+  --primary: #165582;      /* darker accent */
   --accent: #2a86d6;
-  --text: #e6eef8;
-  --muted: #98a8bd;
+  --text: #e6eef8;         /* bright text */
+  --muted: #9fb1c9;        /* default muted */
+  --muted-dark: #7c91a8;   /* darker on hover */
+  --paper: #f6ecd7;        /* parchment base for stat blocks */
+  --paper-ink: #2b2b1f;    /* ink color for stat blocks */
   --border: rgba(255,255,255,0.06);
-  --glass: rgba(255,255,255,0.02);
+  --shadow-1: 0 10px 30px rgba(2,6,23,0.6);
 
   --radius-sm: 6px;
   --radius-md: 10px;
-  --shadow-1: 0 8px 20px rgba(2,6,23,0.6);
-
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 24px;
-  --base-font: 14px; /* reduced text size */
+  --base-font: 14px;
 }
 
-/* Reset / base */
+/* Base reset */
 *{box-sizing:border-box}
 html,body{
   height:100%;
@@ -46,32 +45,18 @@ html,body{
   line-height:1.45;
 }
 
-/* Ensure images are visible and responsive */
-img, .card img, .panel img, .well img {
-  max-width:100%;
-  height:auto;
-  display:block;
-  border-radius:6px;
-}
-
-/* Editor-specific override so blur state doesn't hide images */
-.trumbowyg-box-blur .trumbowyg-editor img {
-  opacity: 1 !important;
-  filter: none !important;
-}
-
 /* Container */
 .container{
   width:100%;
   max-width:1100px;
   margin:0 auto;
-  padding:0 var(--space-4);
+  padding:0 16px;
 }
 
 /* Header */
 header{
   margin-bottom: 8px;
-  padding: 14px 0;
+  padding: 12px 0;
   color: var(--text);
   background: transparent;
   position: sticky;
@@ -82,15 +67,18 @@ header{
 header > .container{
   display:flex;
   align-items:center;
-  gap:var(--space-3);
+  gap:12px;
+  flex-wrap:wrap;
 }
-
-/* Brand block in header (applies to existing <h1> + <p> structure) */
+/* Decorative RPG heading */
 header h1{
   margin:0;
   font-weight:700;
-  font-size:1rem; /* slightly smaller */
-  letter-spacing:0.3px;
+  font-family: 'Cinzel', Inter, serif;
+  font-size:1.05rem;
+  letter-spacing:0.6px;
+  color:var(--text);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.6);
 }
 header p.lead{
   margin:3px 0 0 0;
@@ -98,10 +86,8 @@ header p.lead{
   font-size:0.85rem;
 }
 
-/* Navigation (existing .nav.nav-pills) */
-nav.container {
-  margin-bottom: 6px;
-}
+/* Navigation */
+nav.container { margin-bottom: 6px; }
 .nav-pills {
   display:flex;
   gap:6px;
@@ -110,32 +96,31 @@ nav.container {
   background:transparent;
   margin:0;
 }
-.nav-pills > li {
-  list-style:none;
-}
+.nav-pills > li { list-style:none; }
 .nav-pills > li > a {
   display:inline-block;
   padding:6px 10px;
-  color:var(--muted);
+  color:var(--text);           /* default text (brighter) */
   text-decoration:none;
   border-radius:8px;
   transition:all .12s ease;
   border:1px solid transparent;
   background:transparent;
   font-weight:600;
-  font-size:0.9rem; /* smaller nav text */
+  font-size:0.9rem;
 }
+/* Hover should darken text instead of lighten */
 .nav-pills > li > a:hover,
 .nav-pills > li.active > a,
 .nav-pills > li > a:focus {
-  color:var(--text);
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color:var(--muted-dark);     /* darker text on hover */
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
   border:1px solid var(--border);
   box-shadow: var(--shadow-1);
-  border-left: 3px solid var(--primary); /* subtle accent indicator */
+  border-left: 3px solid var(--primary);
 }
 
-/* Dropdown menu styling (Bootstrap markup still used) */
+/* Dropdown menu */
 .nav .dropdown-menu {
   background: linear-gradient(180deg, var(--muted-surface), rgba(11,21,34,0.95));
   border:1px solid var(--border);
@@ -150,9 +135,9 @@ nav.container {
   font-weight:500;
   white-space:nowrap;
 }
-.nav .dropdown-menu li a:hover { background: rgba(255,255,255,0.02); }
+.nav .dropdown-menu li a:hover { color:var(--muted-dark); background: rgba(255,255,255,0.01); }
 
-/* Header controls (search/input) compatibility */
+/* Inputs */
 input.search, input[type="search"], input[type="text"], textarea, select {
   background: var(--muted-surface);
   color:var(--text);
@@ -165,7 +150,7 @@ input.search, input[type="search"], input[type="text"], textarea, select {
 }
 input.search:focus, input[type="search"]:focus, textarea:focus {
   box-shadow: 0 6px 20px rgba(7,10,20,0.45);
-  border-color:rgba(27,111,179,0.6);
+  border-color:rgba(22,85,130,0.6);
   transform: translateY(-1px);
 }
 
@@ -184,18 +169,10 @@ input.search:focus, input[type="search"]:focus, textarea:focus {
   transition: transform .08s ease, box-shadow .12s ease;
   font-size:0.92rem;
 }
-.btn.secondary {
-  background:transparent;
-  color:var(--text);
-  border:1px solid var(--border);
-}
+.btn.secondary { background:transparent; color:var(--text); border:1px solid var(--border); }
 .btn:hover { transform:translateY(-2px); box-shadow:0 10px 26px rgba(7,10,20,0.6); }
 
-/* Lists (left-hand lists like ul.list) */
-/* Restored compact list behaviour from original stylesheet:
-   - Each item limited to ~3em height and overflow hidden
-   - On hover the item expands to full content
-*/
+/* Lists (compact behavior restored, but hover darkens text) */
 ul.list {
   list-style-type: none;
   padding-left: 0;
@@ -216,15 +193,15 @@ ul.list li {
   cursor: pointer;
   display: block;
   border-bottom: 1px solid rgba(255,255,255,0.02);
-  max-height: 3em; /* compact */
+  max-height: 3em;
   overflow: hidden;
   transition: background .12s ease, color .10s ease, max-height .18s ease;
-  color:var(--muted);
+  color:var(--text);            /* default bright */
 }
 ul.list li:hover {
-  background: rgba(255,255,255,0.02);
-  color:var(--text);
-  max-height: 100%; /* expand to full */
+  background: rgba(0,0,0,0.08); /* slightly darker backdrop */
+  color:var(--muted-dark);      /* text becomes darker on hover */
+  max-height: 100%;
 }
 ul.list li span.name { font-weight:700; color:var(--text); display:block; }
 ul.list li span.level, ul.list li span.classes, ul.list li span.school {
@@ -235,33 +212,75 @@ ul.list li span.level, ul.list li span.classes, ul.list li span.school {
   font-weight:500;
 }
 
-/* Card-like containers for stat blocks and content */
+/* Card-like containers */
 section.card, .card, .panel, .well {
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
   border:1px solid var(--border);
-  padding: var(--space-4);
-  border-radius: var(--radius-md);
+  padding: 16px;
+  border-radius: 10px;
   box-shadow: var(--shadow-1);
   color: var(--text);
 }
 
-/* Stats table (preserve Convergence font for these specific tables) */
-table#stats, table#statsprof {
-  font-family: 'Convergence', sans-serif;
-  background: #fdf1dc; /* keep original light card for readability */
+/* Stat block / parchment styling (table#stats, .stat-block) */
+.table-stat, table#stats, table#statsprof {
+  width:100%;
+  font-family: 'Convergence', 'Cinzel', sans-serif;
+  background: linear-gradient(180deg, rgba(245,236,207,0.98), rgba(241,229,191,0.98));
+  color:var(--paper-ink);
   border-radius: 10px;
-  width: 100%;
-  font-size: .9rem;
-  table-layout: fixed;
+  border: 2px solid rgba(98,68,39,0.22);
+  box-shadow:
+    0 12px 30px rgba(2,6,23,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.35);
+  padding: 8px;
+  table-layout: auto;
   overflow:hidden;
   border-collapse: separate;
 }
-table#stats td, table#stats th {
-  padding:8px;
-  vertical-align: middle;
+.table-stat th, .table-stat td, table#stats th, table#stats td {
+  padding:10px;
+  vertical-align: top;
+  font-size:0.95rem;
+  border-bottom:1px dashed rgba(98,68,39,0.08);
+  color:var(--paper-ink);
+}
+.table-stat th {
+  font-family: 'Cinzel', serif;
+  font-weight:700;
+  letter-spacing:0.6px;
+  color:#2a281f;
+  text-shadow: none;
 }
 
-/* Generic tables & lists used across site */
+/* Stat block header style (if stat blocks use <th id="name"> etc.) */
+table#stats th#name {
+  font-size:1.05rem;
+  background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(0,0,0,0.02));
+  padding:12px;
+  border-radius:6px;
+}
+
+/* Images framed like illustrated cards */
+img, .card img, .panel img, .well img {
+  max-width:100%;
+  height:auto;
+  display:block;
+  border-radius:6px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(255,255,255,0.02));
+  padding:6px;
+  border: 3px solid rgba(55,38,22,0.6); /* carved frame */
+  box-shadow: 0 10px 30px rgba(2,6,23,0.5), inset 0 2px 6px rgba(255,255,255,0.03);
+  margin-bottom:10px;
+}
+
+/* Editor-specific override so blur state doesn't hide images */
+.trumbowyg-box-blur .trumbowyg-editor img {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* Generic tables & lists */
 .table, table {
   width:100%;
   border-collapse:collapse;
@@ -274,9 +293,13 @@ table#stats td, table#stats th {
   color:var(--muted);
   font-size:0.9rem;
 }
-.table tr:hover td, table tr:hover td { background: rgba(255,255,255,0.01); color:var(--text); }
+/* Hover on table rows makes text darker */
+.table tr:hover td, table tr:hover td {
+  background: rgba(0,0,0,0.04);
+  color:var(--muted-dark);
+}
 
-/* Inline badges for sources (preserve existing color semantics but refine visuals) */
+/* Inline badges for sources */
 span.source {
   display:inline-block;
   padding:2px 6px;
@@ -287,24 +310,21 @@ span.source {
   background: rgba(255,255,255,0.02);
   margin-left:6px;
 }
-span.sourceDMG { background: rgba(128,0,128,0.12); color: #f4e6ff; }
-span.sourceMM { background: rgba(0,128,0,0.10); color: #dfffe0; }
-span.sourceVGM { background: rgba(128,128,128,0.08); color: #f0f2f4; }
 
 /* Small forms (pointbuy etc.) */
 form#pointbuy label { float:left; width:7em; color:var(--muted); font-weight:600; }
 form#pointbuy input { margin:2px; text-align:right; padding:6px; border-radius:6px; }
 
-/* Utility classes */
+/* Utility */
 .unselectable { user-select:none; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; }
 
-/* Footer tweaks */
+/* Footer */
 footer {
-  padding: 16px var(--space-4);
+  padding: 16px 16px;
   font-size: 0.88rem;
   color: var(--muted);
   border-top: 1px solid rgba(255,255,255,0.02);
-  margin-top: var(--space-4);
+  margin-top: 16px;
 }
 
 /* Responsive */
@@ -314,8 +334,8 @@ footer {
   input.search { width:100% !important; }
 }
 
-/* Accessibility: focus states */
+/* Accessibility: focus states (keeps accent but subtle) */
 a:focus, button:focus, input:focus {
-  outline: 3px solid rgba(27,111,179,0.18);
+  outline: 3px solid rgba(22,85,130,0.14);
   outline-offset: 2px;
 }
